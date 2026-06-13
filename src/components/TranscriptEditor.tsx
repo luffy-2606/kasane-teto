@@ -55,13 +55,13 @@ export const TranscriptEditor: React.FC<TranscriptEditorProps> = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           disabled={isTranscribing}
-          placeholder="Your speech transcript will appear here. You can manually edit it before converting to Teto-style voice..."
+          placeholder="Your speech transcript will appear here. You can manually edit it before generating a custom voice..."
           className="w-full h-32 rounded-xl bg-black/35 border border-white/[0.06] p-4 text-sm text-white/80 placeholder-white/25 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/30 transition-all duration-200 resize-none font-sans leading-relaxed"
         />
       </div>
 
       <p className="text-[11px] text-white/40 mt-2 italic">
-        *Tip: Edit the transcript directly in this box. Teto will speak the updated text exactly.
+        *Tip: Edit the transcript directly in this box. The generated voice will use the updated text exactly.
       </p>
     </div>
   );

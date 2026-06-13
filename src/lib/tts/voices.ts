@@ -12,7 +12,7 @@ export interface Voice {
 }
 
 /**
- * Curated list of female-biased Kokoro voices suited for Teto-style output.
+ * Curated list of Kokoro voices suited for browser voice-changing output.
  * All IDs exist in onnx-community/Kokoro-82M-v1.0-ONNX.
  */
 export const VOICES: Voice[] = [

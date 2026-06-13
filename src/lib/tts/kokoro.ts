@@ -2,8 +2,7 @@
  * Pure browser-native Kokoro speech synthesis layer.
  *
  * Supports voice blending (weighted mix of multiple style embeddings)
- * and post-inference pitch shifting, enabling character voice approximations
- * like Kasane Teto and Hatsune Miku using only the built-in voice bank.
+ * and post-inference pitch shifting using only the built-in voice bank.
  */
 
 import * as ort from "onnxruntime-web";
@@ -78,16 +77,16 @@ export interface VoicePreset {
  * Character approximations blend voices and apply pitch shifting to push
  * the result into the target character's vocal register.
  *
- * Teto tuning rationale:
+ * Bright profile tuning rationale:
  *   af_sky  (70%) — lightest, most airy built-in female voice
  *   af_nova (30%) — adds brightness and energy
- *   +4 semitones  — pushes into Teto's high soprano register (~E5)
+ *   +4 semitones  — pushes the result into a bright high register
  *   speed 0.92    — slightly slower delivery = more deliberate enunciation
  *
  * Miku tuning rationale:
  *   af_sky  (65%) — airy base
  *   af_kore (35%) — adds clarity and slight edge
- *   +6 semitones  — Miku sits even higher than Teto (~G5)
+ *   +6 semitones  — creates a very high, crisp register
  *   speed 1.0     — Miku's delivery is crisp, not slow
  */
 export const VOICE_PRESETS: Record<string, VoicePreset> = {
@@ -115,8 +114,8 @@ export const VOICE_PRESETS: Record<string, VoicePreset> = {
   bm_lewis:    { label: "Lewis",    voices: [["bm_lewis", 1]],    speed: 1.0, pitchSemitones: 0 },
 
   // ── Character approximations ───────────────────────────────────────────────
-  kasane_teto: {
-    label: "Kasane Teto (approx.)",
+  bright_pop: {
+    label: "Bright Pop",
     voices: [["af_sky", 0.7], ["af_nova", 0.3]],
     speed: 0.92,
     pitchSemitones: 4,
@@ -373,10 +372,10 @@ function pitchShiftPCM(pcm: Float32Array, semitones: number): Float32Array {
  * Generates speech from text using the local Kokoro ONNX model.
  *
  * `voiceId` can be:
- *   - Any key from VOICE_PRESETS (e.g. "kasane_teto", "hatsune_miku", "af_heart")
+ *   - Any key from VOICE_PRESETS (e.g. "bright_pop", "hatsune_miku", "af_heart")
  *   - Any raw Kokoro voice ID with a matching .bin file in /models/kokoro/voices/
  *
- * Character presets (kasane_teto, hatsune_miku, etc.) automatically blend
+ * Character presets (bright_pop, hatsune_miku, etc.) automatically blend
  * voice embeddings and apply pitch shifting to approximate the target voice.
  */
 export async function generateSpeech(
@@ -473,7 +472,7 @@ export async function generateSpeech(
 
   const audioContext = new AudioContextClass();
   const audioBuffer  = audioContext.createBuffer(1, pcm.length, sampleRate);
-  audioBuffer.copyToChannel(pcm, 0);
+  audioBuffer.copyToChannel(new Float32Array(pcm), 0);
   audioContext.close();
 
   return audioBufferToWav(audioBuffer);

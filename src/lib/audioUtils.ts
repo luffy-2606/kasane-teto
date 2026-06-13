@@ -64,12 +64,12 @@ export async function decodeAudioToBuffer(blob: Blob): Promise<AudioBuffer> {
 
 
 /**
- * Applies digital signal processing (DSP) to synthesized speech to make it
- * sound more like Kasane Teto's cute electronic voice.
+ * Applies digital signal processing (DSP) to synthesized speech for a brighter,
+ * higher voice-changer output.
  * Uses a BiquadFilter (high shelf & peaking) for brightness/formant boost,
  * and pitch-shifting using playbackRate.
  */
-export async function applyTetoEffects(
+export async function applyVoiceEffects(
   inputBuffer: AudioBuffer,
   pitchSemitones: number = 3.0, // Shift up by 3 semitones for cute high-pitch
   brightnessGain: number = 5.0  // Boost treble for electronic sparkle (+5dB)

@@ -5,7 +5,7 @@ import { Sparkles, Sliders, ChevronDown, Mic2 } from "lucide-react";
 import { AudioInput, OutputAudio, ConversionState } from "@/types/audio";
 import { generateSpeech } from "@/lib/tts/kokoro";
 import { preloadKokoroModel } from "@/lib/tts/modelLoader";
-import { decodeAudioToBuffer, applyTetoEffects, audioBufferToWav } from "@/lib/audioUtils";
+import { decodeAudioToBuffer, applyVoiceEffects, audioBufferToWav } from "@/lib/audioUtils";
 import { VOICES, DEFAULT_VOICE_ID, Voice } from "@/lib/tts/voices";
 
 interface ConversionPanelProps {
@@ -76,8 +76,8 @@ export const ConversionPanel: React.FC<ConversionPanelProps> = ({
       const rawBuffer = await decodeAudioToBuffer(rawWavBlob);
 
       // Step 3: Apply pitch-shift and treble/brightness filtering
-      setProgressMessage("Applying Teto-style effects...");
-      const processedBuffer = await applyTetoEffects(rawBuffer, pitchShift, brightness);
+      setProgressMessage("Applying voice effects...");
+      const processedBuffer = await applyVoiceEffects(rawBuffer, pitchShift, brightness);
 
       // Step 4: Encode processed buffer → WAV Blob
       setProgressMessage("Finalizing output...");
@@ -218,7 +218,7 @@ export const ConversionPanel: React.FC<ConversionPanelProps> = ({
         <div className="rounded-xl bg-black/30 border border-white/[0.05] p-4 flex flex-col gap-4 animate-fadeIn">
           <div className="flex items-center gap-1.5 text-xs text-white/60 font-semibold uppercase tracking-wider">
             <Sliders className="h-3.5 w-3.5 text-pink-400" />
-            Teto voice custom settings
+            Voice custom settings
           </div>
 
           {/* Pitch Slider */}
@@ -273,7 +273,7 @@ export const ConversionPanel: React.FC<ConversionPanelProps> = ({
             <span className="font-semibold uppercase tracking-wider animate-pulse">
               {conversionState === "transcribing"
                 ? "Transcribing Input..."
-                : "Converting to Teto..."}
+                : "Generating Voice..."}
             </span>
           </div>
           <span className="text-white/60 font-sans tracking-normal">
@@ -294,7 +294,7 @@ export const ConversionPanel: React.FC<ConversionPanelProps> = ({
         }`}
       >
         <Sparkles className="h-4 w-4" />
-        Convert to Teto-style Voice
+        Generate Custom Voice
       </button>
 
       {!audioInput && (

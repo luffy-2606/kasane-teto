@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, Download, RefreshCw, Cpu, Volume2, ShieldCheck, Heart } from "lucide-react";
+import { Download, RefreshCw, Cpu, ShieldCheck, WandSparkles } from "lucide-react";
 import { useAudioRecorder } from "@/hooks/useAudioRecorder";
 import { AudioRecorder } from "@/components/AudioRecorder";
 import { AudioUploader } from "@/components/AudioUploader";
@@ -137,7 +137,7 @@ export default function Home() {
     if (!outputAudio) return;
     const a = document.createElement("a");
     a.href = outputAudio.url;
-    a.download = "teto-output.wav";
+    a.download = "voice-changer-output.wav";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -153,12 +153,12 @@ export default function Home() {
       <header className="border-b border-white/[0.06] bg-[#0b0b0e]/70 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-500/20">
-              <Heart className="h-5 w-5 text-white fill-white/10" />
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-rose-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+              <WandSparkles className="h-5 w-5 text-white" />
             </div>
             <div>
               <span className="text-lg font-black tracking-wider bg-gradient-to-r from-pink-400 via-rose-300 to-cyan-400 bg-clip-text text-transparent uppercase">
-                TetoVoice
+                Voice Changer
               </span>
               <span className="text-[10px] block font-mono text-white/30 tracking-tight uppercase leading-none">
                 V2 · Kokoro TTS
@@ -199,7 +199,7 @@ export default function Home() {
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-3 bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent">
             Convert Speech into a{" "}
             <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
-              Teto-style
+              Custom
             </span>{" "}
             Voice
           </h1>
@@ -292,7 +292,7 @@ export default function Home() {
                 <WaveformPlayer
                   audioUrl={outputAudio.url}
                   themeColor="pink"
-                  title="Generated Teto-style Voice"
+                  title="Generated Custom Voice"
                 />
 
                 <button
@@ -300,7 +300,7 @@ export default function Home() {
                   className="w-full py-3.5 rounded-xl font-bold tracking-wider text-xs uppercase bg-white/5 border border-white/10 hover:bg-white/10 text-white flex items-center justify-center gap-2 hover:border-pink-500/40 hover:text-pink-300 transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/5 cursor-pointer"
                 >
                   <Download className="h-4 w-4" />
-                  Download teto-output.wav
+                  Download voice-changer-output.wav
                 </button>
               </div>
             )}
@@ -316,7 +316,7 @@ export default function Home() {
             <span>100% Client-Side Audio Processing. No audio or transcript leaves your device.</span>
           </div>
           <div className="text-[10px] text-white/20 leading-relaxed max-w-md">
-            TetoVoice V2 uses Xenova/whisper-tiny.en for transcription and onnx-community/Kokoro-82M-v1.0-ONNX for text-to-speech. Post-processing DSP filters are applied in-browser via Web Audio API. Kasane Teto is a trademark of Twin Drill.
+            Client Side Voice Changer uses Xenova/whisper-tiny.en for transcription and onnx-community/Kokoro-82M-v1.0-ONNX for text-to-speech. Post-processing DSP filters are applied in-browser via Web Audio API.
           </div>
         </div>
       </footer>
